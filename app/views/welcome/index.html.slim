@@ -1,0 +1,33 @@
+h1 Welcome to NanoSender microservice dashboard
+h2 API Requests:
+
+h3 Users
+a target="_new" href="/api/v1/users.json?access_token=12345" 
+  |/api/v1/users.json?access_token=#{Rails.application.secrets.access_token}
+
+h3 Sidekiq monitor
+a target="_new" href="/sidekiq" 
+  |/sidekiq
+
+h3 NotificationMailer preview
+a target="_new" href="/rails/mailers/notification_mailer/job_failed" 
+  |/job_failed
+
+h3 Message
+= form_tag "/api/v1/messages/single.json", target: "_blank"
+  .field
+    = label_tag "Access token"
+    = text_field_tag "access_token", Rails.application.secrets.access_token
+  .field
+    = label_tag "User"
+    = select_tag "message[user_id]", options_from_collection_for_select(User.all, "id", "name"), { prompt: 'Select user'}
+  .field
+    = label_tag "Messenger"
+    = select_tag "message[messenger]", options_for_select(BaseMessenger::MESSENGERS), { prompt: 'Select messenger'}
+  .field
+    = label_tag "Body"
+    = text_area_tag "message[body]"
+  / .field
+  /   = label_tag "Time"
+  /   = date_field_tag "time"
+  .actions = submit_tag "Create message"
