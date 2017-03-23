@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :message do
     user_id  { create(:user).id }
-    messenger "AnyMessenger"
+    messenger { BaseMessenger::MESSENGERS.first }
     body "Some message"
   end
 

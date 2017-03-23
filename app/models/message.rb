@@ -23,7 +23,9 @@ class Message
   end
 
   def messenger_valid?
-    true
+    return true if BaseMessenger.valid?(messenger)
+    @error = "Invalid messenger"
+    false
   end
 
   def body_valid?
