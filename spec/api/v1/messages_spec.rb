@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Messages API' do
-  describe 'POST /index' do
+  describe 'POST /single' do
 
     context 'unauthorized' do
       it 'returns 401 status code if there is no access_token' do

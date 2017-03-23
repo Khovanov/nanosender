@@ -10,6 +10,14 @@ class Message
     @error = nil
   end
 
+  def send
+    job_params = { wait_until: Date.today.end_of_day, queue: messenger.downcase.to_sym }
+    job = SendMessageJob.set(job_params).perform_later(user_id: user_id, messenger: messenger, body: body)
+    job_id = job.provider_job_id
+    Rails.logger.debug "Task with Job ID: #{job_id} for send message add to workers queue"
+    job_id
+  end
+
   def valid?
     user_valid? && messenger_valid? && body_valid?
   end
