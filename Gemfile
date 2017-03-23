@@ -49,6 +49,13 @@ group :development, :test do
   # Shell
   gem 'pry-rails'
   gem 'pry-byebug'
+  # RSpec
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  # for API testing
+  gem 'json_spec'
+  # for Rails5
+  gem 'rails-controller-testing'
 end
 
 group :development do
@@ -58,6 +65,16 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  # RSpec
+  gem 'spring-commands-rspec'
+end
+
+group :test do
+  gem 'shoulda-matchers', require: false
+  gem 'capybara'
+  gem 'launchy'
+  gem 'poltergeist'
+  gem 'database_cleaner'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
