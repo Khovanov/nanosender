@@ -1,9 +1,6 @@
-h1 Welcome to NanoSender microservice dashboard
-h2 API Requests:
+h1 NanoSender microservice dashboard
 
-h3 Users
-a target="_new" href="/api/v1/users.json?access_token=12345" 
-  |/api/v1/users.json?access_token=#{Rails.application.secrets.access_token}
+h2 Monitoring
 
 h3 Sidekiq monitor
 a target="_new" href="/sidekiq" 
@@ -13,7 +10,13 @@ h3 NotificationMailer preview
 a target="_new" href="/rails/mailers/notification_mailer/job_failed" 
   |/job_failed
 
-h3 Message to: /api/v1/messages/single.json
+h2 API Requests for testing service
+
+h3 Users
+a target="_new" href="/api/v1/users.json?access_token=12345" 
+  |GET#index: /api/v1/users.json?access_token=12345
+
+h3 Form request POST#single: /api/v1/messages/single.json
 = form_tag "/api/v1/messages/single.json", name: "single", target: "_blank", authenticity_token: false
   .field
     = label_tag "Access token"
@@ -27,28 +30,22 @@ h3 Message to: /api/v1/messages/single.json
   .field
     = label_tag "Body"
     = text_area_tag "message[body]"
-  / .field
-  /   = label_tag "Time"
-  /   = date_field_tag "time"
   .actions = submit_tag "Create message"
 
-h3 Message to: /api/v1/messages/batch.json
+h3 Form request POST#batch /api/v1/messages/batch.json
 = form_tag "/api/v1/messages/batch.json", name: "batch", target: "_blank", authenticity_token: false
   .field
     = label_tag "Access token"
     = text_field_tag "access_token", Rails.application.secrets.access_token
   .field
-    = label_tag "User"
+    = label_tag "Users"
     = select_tag "message[user_id][]", options_from_collection_for_select(User.all, "id", "name"), { prompt: 'Select user'}
     = select_tag "message[user_id][]", options_from_collection_for_select(User.all, "id", "name"), { prompt: 'Select user'}
   .field
-    = label_tag "Messenger"
+    = label_tag "Messengers"
     = select_tag "message[messenger][]", options_for_select(BaseMessenger::MESSENGERS), { prompt: 'Select messenger'}
     = select_tag "message[messenger][]", options_for_select(BaseMessenger::MESSENGERS), { prompt: 'Select messenger'}
   .field
     = label_tag "Body"
     = text_area_tag "message[body]"
-  / .field
-  /   = label_tag "Time"
-  /   = date_field_tag "time"
   .actions = submit_tag "Create message"
