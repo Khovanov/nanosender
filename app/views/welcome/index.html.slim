@@ -13,8 +13,8 @@ h3 NotificationMailer preview
 a target="_new" href="/rails/mailers/notification_mailer/job_failed" 
   |/job_failed
 
-h3 Message
-= form_tag "/api/v1/messages/single.json", target: "_blank"
+h3 Message to: /api/v1/messages/single.json
+= form_tag "/api/v1/messages/single.json", name: "single", target: "_blank", authenticity_token: false
   .field
     = label_tag "Access token"
     = text_field_tag "access_token", Rails.application.secrets.access_token
@@ -24,6 +24,27 @@ h3 Message
   .field
     = label_tag "Messenger"
     = select_tag "message[messenger]", options_for_select(BaseMessenger::MESSENGERS), { prompt: 'Select messenger'}
+  .field
+    = label_tag "Body"
+    = text_area_tag "message[body]"
+  / .field
+  /   = label_tag "Time"
+  /   = date_field_tag "time"
+  .actions = submit_tag "Create message"
+
+h3 Message to: /api/v1/messages/batch.json
+= form_tag "/api/v1/messages/batch.json", name: "batch", target: "_blank", authenticity_token: false
+  .field
+    = label_tag "Access token"
+    = text_field_tag "access_token", Rails.application.secrets.access_token
+  .field
+    = label_tag "User"
+    = select_tag "message[user_id][]", options_from_collection_for_select(User.all, "id", "name"), { prompt: 'Select user'}
+    = select_tag "message[user_id][]", options_from_collection_for_select(User.all, "id", "name"), { prompt: 'Select user'}
+  .field
+    = label_tag "Messenger"
+    = select_tag "message[messenger][]", options_for_select(BaseMessenger::MESSENGERS), { prompt: 'Select messenger'}
+    = select_tag "message[messenger][]", options_for_select(BaseMessenger::MESSENGERS), { prompt: 'Select messenger'}
   .field
     = label_tag "Body"
     = text_area_tag "message[body]"
