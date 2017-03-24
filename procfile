@@ -1,4 +1,2 @@
-rails: PORT=3000 rails s -b0
-redis: redis-server
-sidekiq: sidekiq
-mail: mailcatcher -f --ip 0
+web: bundle exec puma
+worker: bundle exec sidekiq
