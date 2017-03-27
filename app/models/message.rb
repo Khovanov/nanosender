@@ -1,6 +1,21 @@
 class Message
   MAX_TEXT_SIZE = 100
 
+  include Swagger::Blocks
+
+  swagger_schema :Message do
+    key :required, [:result]
+    property :result do
+      property :code do
+        key :type, :integer
+        key :format, :int32
+      end
+      property :message do
+        key :type, :string
+      end
+    end
+  end
+
   attr_reader :user_id, :messenger, :body, :error
 
   def initialize(user_id:, messenger:, body:)
