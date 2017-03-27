@@ -3,10 +3,12 @@ class Api::V1::MessagesController < Api::V1::BaseController
   def single
     message = Message.new(message_params.to_h.symbolize_keys)
     if message.valid?
-      job_id = message.send
+      job_id = message.send_to_job
       render json: { result: { code: 201, message: "Created: Message send to queue with Job ID: #{job_id}"} }, status: :created
     else
-      render json: { error: { code: 400, message: "Bad Request: #{message.error}"} }, status: :bad_request
+      # errors = message.errors.full_messages.uniq.join(", ")
+      errors = message.errors.full_messages.join(", ")
+      render json: { error: { code: 400, message: "Bad Request: #{errors}"} }, status: :bad_request
     end
   end
 
@@ -17,10 +19,10 @@ class Api::V1::MessagesController < Api::V1::BaseController
 
     messages = create_messages(user_ids, messengers, body)
     if messages.map(&:valid?).include?(false)
-      errors = messages.map(&:error).uniq.join(", ")
+      errors = messages.map(&:errors).map(&:full_messages).flatten.uniq.join(", ")
       render json: { error: { code: 400, message: "Bad Request: #{errors}"} }, status: :bad_request
     else
-      job_ids = messages.map(&:send).join(", ")
+      job_ids = messages.map(&:send_to_job).join(", ")
       render json: { result: { code: 201, message: "Created: All messages send to queue with Job ID: #{job_ids}"} }, status: :created
     end
   end
