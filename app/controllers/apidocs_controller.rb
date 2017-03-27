@@ -25,7 +25,8 @@ class ApidocsController < ApplicationController
       end
     end
     # key :host, 'https://nanosender.herokuapp.com/'
-    key :host, '127.0.0.1:3000'
+    # key :host, '127.0.0.1:3000'
+    key :host, 'nanosender.herokuapp.com'
     key :basePath, '/api/v1'
     key :consumes, ['application/json']
     key :produces, ['application/json']
