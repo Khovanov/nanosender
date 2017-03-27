@@ -1,85 +1,8 @@
 # README
 
-## Simple REST API
+## See API doc on Swagger UI
+[Nanosender Swagger UI](https://nanosender.herokuapp.com/apidocs)
 
-### Get list all users
-#### request
-format: GET
-
-url: /api/v1/users.json
-
-parameters: access_token=12345
-
-#### response
-format: JSON
-
-### Send message to one user, thru one messenger
-#### request
-format: POST
-
-url: /api/v1/messages/single.json
-
-#### parameters (all parameters required)
-```
-parameter: "access_token", value: String (example "12345")
-parameter: "message[user_id]", value: Integer (example "1")
-parameter: "message[messenger]", value: String (example "Viber" or "Telegram")
-parameter: "message[body]", value: Text (example "Some text")
-```
-#### response
-format: JSON
-```
-example valid response (HTTP code 201):
-{
-  "result": {
-    "code": 201,
-    "text": "Created: Message send to queue with Job ID: 617d8912ab3c2f5d8049481f"
-  }
-}
-
-example invalid response (HTTP code 400):
-{
-  "error": {
-    "code": 400,
-    "text": "Bad Request: Invalid body"
-  }
-}
-```
-
-### Send message to many users, thru many messengers
-#### request
-format: POST
-url: /api/v1/messages/batch.json
-#### parameters (example):
-all parameters required
-```
-parameter: "access_token", value: String (example "12345")
-parameter: "message[user_id][]", value: Array (example ["1","2"])
-parameter: "message[messenger][]", value: Array (example ["Viber","Telegram"])
-parameter: "message[body][]", value: Text (example "Some text")
-```
-#### respond
-format: JSON
-```
-example valid response (HTTP code 201):
-{
-  "result": {
-    "code": 201,
-    "text": "Created: All messages send to queue with Job ID:
-      c9a85f64ab93a0612f77f581,
-      45de1c63364fefba2c947238,
-      830698b86edb7af73e1f8c72,
-      1796894feb08a55e6330267f"
-  }
-}
-example invalid response (HTTP code 400):
-{
-  "error": {
-    "code": 400,
-    "text": "Bad Request: Invalid body"
-  }
-}
-```
 ---
 
 # Project use:
@@ -95,6 +18,9 @@ example invalid response (HTTP code 400):
 
 ## Foreman
 [Foreman](https://github.com/ddollar/foreman)
+
+## Swagger
+[Swagger](http://swagger.io/)
 
 ## For deploy Project
 
