@@ -1,12 +1,14 @@
-class Message
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Message < ApplicationRecord
 
-  field :user_id, type: String
-  field :messenger, type: String
-  field :body, type: String
-  field :deliver, type: Boolean
-  index({ user_id: 1, messenger: 1, body: 1 }, { unique: true })
+  # For mongoid model version
+  # include Mongoid::Document
+  # include Mongoid::Timestamps
+  #
+  # field :user_id, type: String
+  # field :messenger, type: String
+  # field :body, type: String
+  # field :deliver, type: Boolean
+  # index({ user_id: 1, messenger: 1, body: 1 }, { unique: true })
 
   validates :body, :user_id, :messenger, presence: true
   validates :body, length: { maximum: 100 }
@@ -49,11 +51,13 @@ class Message
   end
 
   def message_must_be_uniqueness
-    # errors.add(:body, "not uniqueness") if Message.find_by({ user_id: user_id, messenger: messenger, body: body })
-    Message.find_by({ user_id: user_id, messenger: messenger, body: body })
-  rescue Mongoid::Errors::DocumentNotFound
-    # record uniqueness
-  else
-    errors.add(:body, "not uniqueness")
+    errors.add(:body, "not uniqueness") if Message.find_by({ user_id: user_id, messenger: messenger, body: body })
+
+    # For mongoid model version
+    # Message.find_by({ user_id: user_id, messenger: messenger, body: body })
+    # rescue Mongoid::Errors::DocumentNotFound
+      # record uniqueness
+    # else
+      # errors.add(:body, "not uniqueness")
   end
 end
