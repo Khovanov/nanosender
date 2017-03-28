@@ -6,16 +6,20 @@ class Api::V1::MessagesController < Api::V1::BaseController
       job_id = message.send_to_job
       render json: { result: { code: 201, message: "Created: Message send to queue with Job ID: #{job_id}"} }, status: :created
     else
-      # errors = message.errors.full_messages.uniq.join(", ")
       errors = message.errors.full_messages.join(", ")
       render json: { error: { code: 400, message: "Bad Request: #{errors}"} }, status: :bad_request
     end
   end
 
   def batch
-    user_ids = params[:message][:user_id].split(',').uniq
-    messengers = params[:message][:messenger].split(',').uniq
+    user_ids = params[:message][:user_id].try(:split, ',').try(:uniq)
+    messengers = params[:message][:messenger].try(:split, ',').try(:uniq)
     body = message_params[:body]
+
+    unless user_ids.present? && messengers.present? && body.present?
+      render json: { error: { code: 400, message: "Bad Request: invalid params}"} }, status: :bad_request
+      return
+    end
 
     messages = create_messages(user_ids, messengers, body)
     if messages.map(&:valid?).include?(false)
